@@ -1,0 +1,42 @@
+{% extends 'saber11/base.html' %}
+
+{% block chartcode %}
+<script>
+  google.charts.load('current', {packages: ['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  var datos = {{ colegio_json | safe}};
+  var fields = datos[0].fields;
+
+  function drawChart() {
+    // Create the data table.
+    var data = new google.visualization.arrayToDataTable([
+      ["Asignatura", "Promedio", { role: 'style' }],
+      ['Matemáticas', fields.matematicas, '#b87333'],
+      ['Ciencias', fields.ciencias, 'silver'],
+      ['Inglés', fields.ingles, 'gold'],
+      ['Lectura', fields.lectura, 'lightblue'],
+      ['Sociales', fields.sociales, 'yellow'],
+      ['Ponderado', fields.promponderado, 'blue']
+    ]);
+// Set chart options
+var options = {'title':'Promedio por Asignatura', legend: { position: 'none' }}; //,
+                     //'width':600,
+                     //'height':400};
+
+// Instantiate and draw our chart, passing in some options.
+var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+chart.draw(data, options);
+}
+</script>
+{% endblock %}
+
+{% block content %}
+  <p class="lead">{{ colegio.nombre }}</p>
+  <p>Matemáticas: {{ colegio.matematicas }}</p>
+  <p>Ciencias: {{ colegio.ciencias }}</p>
+  <p>Inglés: {{ colegio.ingles }}</p>
+  <p>Lectura Crítica: {{ colegio.lectura }}</p>
+  <p>Sociales: {{ colegio.sociales }}</p>
+  <div id="chart_div" style="width:70%; height:400"></div>
+{% endblock %}

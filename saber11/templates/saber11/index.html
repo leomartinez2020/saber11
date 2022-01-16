@@ -1,0 +1,12 @@
+{% extends 'saber11/base.html' %}
+
+{% block content %}
+  <h1>Mejores Colegios de Colombia {{ year }}</h1>
+  {% for colegio in colegios %}
+    <p class="lead">{{ forloop.counter0|add:page_obj.start_index }}) {{ colegio.nombre }} <strong>({{ colegio.promponderado|floatformat:3 }})</strong></p>
+    <p>{{ colegio.municipio }} - {{ colegio.departamento }} - {{ colegio.periodo }}</p>
+    <p>Calendario: {{ colegio.calendario }}. Evaluados: {{ colegio.evaluados }}</p>
+    <p>Más info: <a href="{{ colegio.get_absolute_url }}">{{ colegio.slug }}</a></p>
+    <hr>
+  {% endfor %}
+{% endblock %}
